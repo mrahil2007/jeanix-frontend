@@ -1,74 +1,179 @@
-const API_URL = "https://jeanix-backends.onrender.com/api/products";
+// API_URL is already defined in script.js
+// DO NOT redeclare it here
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let product = null;
+let selectedSize = null;
 
 async function loadProduct() {
+  const container = document.getElementById("product-detail");
+
+  if (!productId || !container) {
+    container.innerHTML = "<p>Invalid product</p>";
+    return;
+  }
+
   try {
     const res = await fetch(API_URL);
     const products = await res.json();
 
-    product = products.find(p => p._id === productId);
-
+    const product = products.find(p => p._id === productId);
     if (!product) {
-      document.body.innerHTML = "<h2 style='color:white'>Product not found</h2>";
+      container.innerHTML = "<p>Product not found</p>";
       return;
     }
 
-    document.getElementById("product-image").src = product.image;
-    document.getElementById("product-name").innerText = product.name;
-    document.getElementById("product-price").innerText = `₹${product.price}`;
+    container.innerHTML = `
+      <div class="product-wrapper">
+        <div class="product-image">
+          <img src="${product.image}" alt="${product.name}">
+        </div>
+
+        <div class="product-info">
+          <h1>${product.name}</h1>
+          <p class="price">₹${product.price}</p>
+          <p>Slim Fit • Premium Denim • Comfortable Wear</p>
+
+          <!-- SIZE SELECTOR -->
+          <div class="size-selector">
+            <p>Select Size:</p>
+            <div class="sizes">
+              <button class="size-btn" data-size="28">28</button>
+              <button class="size-btn" data-size="30">30</button>
+              <button class="size-btn" data-size="32">32</button>
+              <button class="size-btn" data-size="34">34</button>
+              <button class="size-btn" data-size="36">36</button>
+            </div>
+          </div>
+
+          <!-- SIZE CHART -->
+          <p class="size-help">
+            <a href="#" id="openSizeChart">📏 View Size Chart</a>
+          </p>
+
+          <div id="sizeChartModal" class="modal hidden">
+            <div class="modal-content">
+              <span id="closeSizeChart" class="close">&times;</span>
+              <h3>JEANIX Size Chart (inches)</h3>
+              <table>
+                <tr><th>Size</th><th>Waist</th></tr>
+                <tr><td>28</td><td>28–29</td></tr>
+                <tr><td>30</td><td>30–31</td></tr>
+                <tr><td>32</td><td>32–33</td></tr>
+                <tr><td>34</td><td>34–35</td></tr>
+                <tr><td>36</td><td>36–37</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <button id="addToCartBtn" class="primary-btn" disabled>
+            Add to Cart
+          </button>
+
+          <button id="buyNowBtn" class="secondary-btn" disabled>
+            Buy on WhatsApp
+          </button>
+        </div>
+      </div>
+    `;
+
+    // ===== STICKY BAR SETUP =====
+    const stickyBar = document.getElementById("sticky-bar");
+    const stickyPrice = document.getElementById("sticky-price");
+
+    if (stickyBar && window.innerWidth <= 768) {
+      stickyBar.classList.remove("hidden");
+      stickyPrice.innerText = `₹${product.price}`;
+    }
+
+    attachEvents(product);
 
   } catch (err) {
-    console.error("Failed to load product", err);
+    console.error("Product load failed", err);
+    container.innerHTML = "<p>Error loading product</p>";
   }
 }
 
-document.getElementById("add-to-cart").addEventListener("click", () => {
-  const qty = Number(document.getElementById("qty").value);
+function attachEvents(product) {
+  const sizeButtons = document.querySelectorAll(".size-btn");
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  const buyNowBtn = document.getElementById("buyNowBtn");
 
-  const existing = cart.find(item => item.id === product._id);
+  const stickyAddBtn = document.getElementById("sticky-add-btn");
+  const stickyBuyBtn = document.getElementById("sticky-buy-btn");
 
-  if (existing) {
-    existing.qty += qty;
-  } else {
-    cart.push({
-      id: product._id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      qty
-    });
+  // Disable buttons initially
+  addToCartBtn.disabled = true;
+  buyNowBtn.disabled = true;
+  if (stickyAddBtn) stickyAddBtn.disabled = true;
+  if (stickyBuyBtn) stickyBuyBtn.disabled = true;
+
+  // ===== SIZE SELECTION =====
+  sizeButtons.forEach(btn => {
+    btn.onclick = () => {
+      sizeButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      selectedSize = btn.dataset.size;
+
+      // Enable buttons after size selected
+      addToCartBtn.disabled = false;
+      buyNowBtn.disabled = false;
+      if (stickyAddBtn) stickyAddBtn.disabled = false;
+      if (stickyBuyBtn) stickyBuyBtn.disabled = false;
+    };
+  });
+
+  // ===== ADD TO CART =====
+  addToCartBtn.onclick = () => {
+    if (!selectedSize) return;
+
+    addToCart(
+      product._id,
+      product.name,
+      product.price,
+      product.image,
+      selectedSize
+    );
+
+    alert(`Added size ${selectedSize} to cart 🛒`);
+  };
+
+  if (stickyAddBtn) {
+    stickyAddBtn.onclick = addToCartBtn.onclick;
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Added to cart 🛒");
-});
+  // ===== BUY NOW (WHATSAPP) =====
+  buyNowBtn.onclick = () => {
+    if (!selectedSize) return;
 
-document.getElementById("buy-now").addEventListener("click", () => {
-  const qty = Number(document.getElementById("qty").value);
-  const total = product.price * qty;
-
-  const message = `
-🛒 JEANIX Order
-
-${product.name}
-Qty: ${qty}
+    const msg = `
+JEANIX Order
+Product: ${product.name}
+Size: ${selectedSize}
 Price: ₹${product.price}
-Total: ₹${total}
+    `;
 
-Delivery Address:
-Phone:
-`;
+    window.open(
+      "https://wa.me/919717706407?text=" + encodeURIComponent(msg),
+      "_blank"
+    );
+  };
 
-  const phone = "919717706407";
-  window.open(
-    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
-    "_blank"
-  );
-});
+  if (stickyBuyBtn) {
+    stickyBuyBtn.onclick = buyNowBtn.onclick;
+  }
 
-loadProduct();
+  // ===== SIZE CHART =====
+  document.getElementById("openSizeChart").onclick = e => {
+    e.preventDefault();
+    document.getElementById("sizeChartModal").classList.remove("hidden");
+  };
+
+  document.getElementById("closeSizeChart").onclick = () => {
+    document.getElementById("sizeChartModal").classList.add("hidden");
+  };
+}
+
+document.addEventListener("DOMContentLoaded", loadProduct);

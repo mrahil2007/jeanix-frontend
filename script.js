@@ -1,6 +1,6 @@
 const API_URL = "https://jeanix-backends.onrender.com/api/products";
 
-// ================= LOAD PRODUCTS =================
+/* ================= LOAD PRODUCTS ================= */
 async function loadProducts() {
   try {
     const res = await fetch(API_URL);
@@ -16,36 +16,36 @@ async function loadProducts() {
       card.className = "card";
 
       card.innerHTML = `
-        <a href="product.html?id=${p._id}">
-        <img src="${p.image}" alt="${p.name}">
+        <a href="product.html?id=${p._id}" class="product-link">
+          <img src="${p.image}" alt="${p.name}">
         </a>
-          <h3>${p.name}</h3>
 
-        <p>₹${p.price}</p>
-        <button 
-          class="add-to-cart"
-          data-id="${p._id}"
-          data-name="${p.name}"
-          data-price="${p.price}"
-          data-image="${p.image}">
-          Add to Cart
-        </button>
+        <h3>${p.name}</h3>
+        <p class="price">₹${p.price}</p>
+        <p class="delivery">🚚 Free Delivery | COD Available</p>
+
+        <a href="product.html?id=${p._id}" class="view-btn">
+  Select Size
+</a>
+
       `;
 
       container.appendChild(card);
     });
 
   } catch (err) {
-    console.error("Failed to load products", err);
+    console.error("Failed to load products:", err);
   }
 }
 
-// ================= CART STATE =================
+/* ================= CART STATE ================= */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// ================= ADD TO CART =================
-function addToCart(id, name, price, image) {
-  const existingItem = cart.find(item => item.id === id);
+/* ================= ADD TO CART ================= */
+function addToCart(id, name, price, image, size = "N/A") {
+  const existingItem = cart.find(
+    item => item.id === id && item.size === size
+  );
 
   if (existingItem) {
     existingItem.qty += 1;
@@ -53,23 +53,23 @@ function addToCart(id, name, price, image) {
     cart.push({
       id,
       name,
-      price: Number(price),
+      price,
       image,
+      size,
       qty: 1
     });
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
-  alert("Added to cart 🛒");
 }
 
-// ================= UPDATE CART COUNT =================
+
+/* ================= UPDATE CART COUNT ================= */
 function updateCartCount() {
-  const count = cart.reduce(
-    (sum, item) => sum + (Number(item.qty) || 0),
-    0
-  );
+  const count = cart.reduce((sum, item) => {
+    return sum + Number(item.qty || 0);
+  }, 0);
 
   const countSpan = document.getElementById("cart-count");
   if (countSpan) {
@@ -77,20 +77,21 @@ function updateCartCount() {
   }
 }
 
-// ================= EVENT DELEGATION =================
+/* ================= EVENT DELEGATION ================= */
 document.addEventListener("click", function (e) {
-  if (e.target.classList.contains("add-to-cart")) {
-    const btn = e.target;
+  const btn = e.target.closest(".add-to-cart");
+  if (!btn) return;
 
-    addToCart(
-      btn.dataset.id,
-      btn.dataset.name,
-      Number(btn.dataset.price),
-      btn.dataset.image
-    );
-  }
+  addToCart(
+    btn.dataset.id,
+    btn.dataset.name,
+    btn.dataset.price,
+    btn.dataset.image
+  );
 });
 
-// ================= INIT =================
-loadProducts();
-updateCartCount();
+/* ================= INIT ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
+  updateCartCount();
+});

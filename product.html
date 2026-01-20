@@ -15,23 +15,28 @@
   </a>
 </header>
 
-<main class="product-page">
-  <div class="product-image">
-    <img id="product-image" />
-  </div>
-
-  <div class="product-info">
-    <h2 id="product-name"></h2>
-    <p class="price" id="product-price"></p>
-
-    <label>Quantity</label>
-    <input type="number" id="qty" value="1" min="1">
-
-    <button id="add-to-cart">Add to Cart</button>
-    <button id="buy-now">Buy on WhatsApp</button>
-  </div>
+<!-- 🔴 THIS ID IS REQUIRED -->
+<main id="product-detail" class="product-page">
+  <!-- product.js injects content here -->
 </main>
 
+<!-- ===== STICKY ADD TO CART (MOBILE) ===== -->
+<div id="sticky-bar" class="sticky-bar hidden">
+    <span class="sticky-price" id="sticky-price">₹0</span>
+  
+    <button id="sticky-add-btn" disabled>
+      Add to Cart
+    </button>
+  
+    <button id="sticky-buy-btn" disabled>
+      Buy Now
+    </button>
+  </div>
+  
+
+<!-- 🔴 BOTH FILES ARE REQUIRED -->
+<script src="script.js"></script>
 <script src="product.js"></script>
+
 </body>
 </html>
