@@ -790,3 +790,15 @@ button:disabled {
   }
 
 }
+/* ===== ENSURE CART BUTTONS ARE CLICKABLE ===== */
+
+.cart-item button {
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.cart-container {
+  position: relative;
+  z-index: 1;
+}

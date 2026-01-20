@@ -59,24 +59,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ===== CART BUTTON ACTIONS =====
   cartItemsDiv.addEventListener("click", function (e) {
-
-    if (e.target.classList.contains("inc")) {
-      const i = e.target.dataset.index;
-      cart[i].qty += 1;
+    const btn = e.target;
+    if (!btn.dataset.index) return;
+  
+    const index = Number(btn.dataset.index);
+  
+    if (btn.classList.contains("inc")) {
+      cart[index].qty += 1;
+    } 
+    else if (btn.classList.contains("dec")) {
+      cart[index].qty > 1
+        ? cart[index].qty--
+        : cart.splice(index, 1);
+    } 
+    else if (btn.classList.contains("remove")) {
+      cart.splice(index, 1);
     }
-
-    else if (e.target.classList.contains("dec")) {
-      const i = e.target.dataset.index;
-      cart[i].qty > 1 ? cart[i].qty-- : cart.splice(i, 1);
-    }
-
-    else if (e.target.classList.contains("remove")) {
-      const id = e.target.dataset.id;
-      cart = cart.filter(item => item.id !== id);
-    }
-
+  
+    localStorage.setItem("cart", JSON.stringify(cart));
     renderCart();
   });
+  
 
   // ===== WHATSAPP BUY NOW =====
   if (buyBtn) {
