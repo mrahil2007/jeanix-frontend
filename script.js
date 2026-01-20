@@ -23,10 +23,10 @@ async function loadProducts() {
         <h3>${p.name}</h3>
         <p class="price">₹${p.price}</p>
         <p class="delivery">🚚 Free Delivery | COD Available</p>
+      <a href="product.html?id=${p._id}" class="size-cta">
+      Select Size
+      </a>
 
-        <a href="product.html?id=${p._id}" class="view-btn">
-  Select Size
-</a>
 
       `;
 
