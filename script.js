@@ -1,6 +1,6 @@
 const API_URL = "https://jeanix-backends.onrender.com/api/products";
 
-/* ================= LOAD PRODUCTS ================= */
+
 async function loadProducts() {
   try {
     const res = await fetch(API_URL);
@@ -38,10 +38,10 @@ async function loadProducts() {
   }
 }
 
-/* ================= CART STATE ================= */
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* ================= ADD TO CART ================= */
+
 function addToCart(id, name, price, image, size = "N/A") {
   const existingItem = cart.find(
     item => item.id === id && item.size === size
@@ -65,7 +65,7 @@ function addToCart(id, name, price, image, size = "N/A") {
 }
 
 
-/* ================= UPDATE CART COUNT ================= */
+
 function updateCartCount() {
   const count = cart.reduce((sum, item) => {
     return sum + Number(item.qty || 0);
@@ -77,7 +77,7 @@ function updateCartCount() {
   }
 }
 
-/* ================= EVENT DELEGATION ================= */
+
 document.addEventListener("click", function (e) {
   const btn = e.target.closest(".add-to-cart");
   if (!btn) return;
@@ -90,7 +90,7 @@ document.addEventListener("click", function (e) {
   );
 });
 
-/* ================= INIT ================= */
+
 document.addEventListener("DOMContentLoaded", () => {
   loadProducts();
   updateCartCount();

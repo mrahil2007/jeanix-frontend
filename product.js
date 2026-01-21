@@ -1,5 +1,4 @@
-// API_URL is already defined in script.js
-// DO NOT redeclare it here
+
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
@@ -78,7 +77,7 @@ async function loadProduct() {
       </div>
     `;
 
-    // ===== STICKY BAR SETUP =====
+    
     const stickyBar = document.getElementById("sticky-bar");
     const stickyPrice = document.getElementById("sticky-price");
 
@@ -103,13 +102,13 @@ function attachEvents(product) {
   const stickyAddBtn = document.getElementById("sticky-add-btn");
   const stickyBuyBtn = document.getElementById("sticky-buy-btn");
 
-  // Disable buttons initially
+  
   addToCartBtn.disabled = true;
   buyNowBtn.disabled = true;
   if (stickyAddBtn) stickyAddBtn.disabled = true;
   if (stickyBuyBtn) stickyBuyBtn.disabled = true;
 
-  // ===== SIZE SELECTION =====
+ 
   sizeButtons.forEach(btn => {
     btn.onclick = () => {
       sizeButtons.forEach(b => b.classList.remove("active"));
@@ -117,7 +116,7 @@ function attachEvents(product) {
 
       selectedSize = btn.dataset.size;
 
-      // Enable buttons after size selected
+     
       addToCartBtn.disabled = false;
       buyNowBtn.disabled = false;
       if (stickyAddBtn) stickyAddBtn.disabled = false;
@@ -125,7 +124,7 @@ function attachEvents(product) {
     };
   });
 
-  // ===== ADD TO CART =====
+  
   addToCartBtn.onclick = () => {
     if (!selectedSize) return;
 
@@ -144,7 +143,7 @@ function attachEvents(product) {
     stickyAddBtn.onclick = addToCartBtn.onclick;
   }
 
-  // ===== BUY NOW (WHATSAPP) =====
+  
   buyNowBtn.onclick = () => {
     if (!selectedSize) return;
 
@@ -165,7 +164,7 @@ Price: ₹${product.price}
     stickyBuyBtn.onclick = buyNowBtn.onclick;
   }
 
-  // ===== SIZE CHART =====
+  
   document.getElementById("openSizeChart").onclick = e => {
     e.preventDefault();
     document.getElementById("sizeChartModal").classList.remove("hidden");

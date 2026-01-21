@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  // ===== UPDATE HEADER CART COUNT =====
+ 
   function updateHeaderCartCount() {
     const count = cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
     const countSpan = document.getElementById("cart-count");
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ===== RENDER CART =====
+  
   function renderCart() {
     cartItemsDiv.innerHTML = "";
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateHeaderCartCount();
   }
 
-  // ===== CART BUTTON ACTIONS =====
+  
   cartItemsDiv.addEventListener("click", function (e) {
     const btn = e.target;
     if (!btn.dataset.index) return;
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
 
-  // ===== WHATSAPP BUY NOW =====
+  
   if (buyBtn) {
     buyBtn.addEventListener("click", function () {
       if (cart.length === 0) {
@@ -106,13 +106,13 @@ document.addEventListener("DOMContentLoaded", function () {
       message += "📍 Delivery Address:%0A";
       message += "📞 Phone Number:%0A";
 
-      const phoneNumber = "919717706407"; // your WhatsApp number
+      const phoneNumber = "919717706407"; 
 
       const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
       window.open(whatsappURL, "_blank");
     });
   }
 
-  // ===== INIT =====
+  
   renderCart();
 });
