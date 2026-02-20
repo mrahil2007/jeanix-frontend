@@ -1,42 +1,1013 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JEANIX | Product</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>JEANIX – Product</title>
+  <meta name="description" content="Premium slim fit jeans for men. Cash on Delivery. Pan India delivery.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://jeanix-backends.onrender.com">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #fafaf8;
+      --grey-100: #f5f5f3;
+      --grey-200: #e8e8e4;
+      --grey-400: #a8a8a0;
+      --grey-600: #5a5a54;
+      --accent: #c8a96e;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 36px;
+    }
+
+    nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey-600);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 400;
+    }
+
+    nav a:hover {
+      color: var(--black);
+    }
+
+    .cart-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cart-count {
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.65rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      margin-top: 64px;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .breadcrumb a,
+    .breadcrumb span {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--black);
+    }
+
+    .breadcrumb .sep {
+      color: var(--grey-200);
+    }
+
+    .breadcrumb .current {
+      color: var(--black);
+    }
+
+    /* ── PRODUCT LAYOUT ── */
+    .product-page {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 64px - 53px);
+    }
+
+    /* ── IMAGE SIDE ── */
+    .image-side {
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+      background: var(--grey-100);
+    }
+
+    .image-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .image-side img.loaded {
+      opacity: 1;
+    }
+
+    .image-skeleton {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #ebebeb 25%, #d8d8d8 50%, #ebebeb 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+
+    /* ── INFO SIDE ── */
+    .info-side {
+      padding: 56px 56px 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+    }
+
+    .product-name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .product-price {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s forwards;
+    }
+
+    .product-delivery {
+      font-size: 0.75rem;
+      color: var(--grey-400);
+      letter-spacing: 0.06em;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--grey-200);
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    /* SIZE */
+    .size-section {
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.45s forwards;
+    }
+
+    .size-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .size-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .size-guide {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      text-decoration: none;
+      border-bottom: 1px solid var(--grey-200);
+      padding-bottom: 2px;
+      cursor: pointer;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: var(--font-body);
+      font-weight: 300;
+    }
+
+    .size-guide:hover {
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    .sizes {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .size-btn {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--grey-200);
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      color: var(--black);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 400;
+    }
+
+    .size-btn:hover {
+      border-color: var(--black);
+    }
+
+    .size-btn.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    /* SIZE HINT */
+    .size-hint {
+      font-size: 0.72rem;
+      color: var(--grey-400);
+      margin-top: 12px;
+      letter-spacing: 0.04em;
+      min-height: 18px;
+      transition: color 0.2s;
+    }
+
+    .size-hint.selected {
+      color: var(--black);
+    }
+
+    /* BUTTONS */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 18px;
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+      font-weight: 400;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: transparent;
+      color: var(--black);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 18px;
+      background: transparent;
+      color: var(--black);
+      border: 1px solid var(--grey-200);
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.25s;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: var(--black);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* DETAILS ACCORDION */
+    .details-section {
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .accordion-item {
+      border-top: 1px solid var(--grey-200);
+    }
+
+    .accordion-item:last-child {
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .accordion-header {
+      width: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--black);
+      font-weight: 400;
+    }
+
+    .accordion-icon {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--grey-400);
+      transition: transform 0.3s;
+      line-height: 1;
+    }
+
+    .accordion-item.open .accordion-icon {
+      transform: rotate(45deg);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .accordion-body p {
+      font-size: 0.82rem;
+      color: var(--grey-600);
+      line-height: 1.8;
+      padding-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    /* SIZE CHART MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--white);
+      width: 440px;
+      max-width: 90vw;
+      padding: 48px 40px;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--grey-400);
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--black);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .modal-sub {
+      font-size: 0.72rem;
+      color: var(--grey-400);
+      letter-spacing: 0.08em;
+      margin-bottom: 28px;
+    }
+
+    .size-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .size-table th {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      text-align: left;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--grey-200);
+      font-weight: 400;
+    }
+
+    .size-table td {
+      font-size: 0.82rem;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--grey-100);
+      color: var(--black);
+    }
+
+    .size-table td:first-child {
+      font-weight: 500;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 28px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 300;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* STICKY BAR (mobile) */
+    .sticky-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background: var(--white);
+      border-top: 1px solid var(--grey-200);
+      padding: 14px 20px;
+      gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .sticky-bar {
+        display: flex;
+      }
+    }
+
+    .sticky-bar .sticky-price {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .sticky-bar .s-btn {
+      flex: 1;
+      padding: 14px;
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      font-weight: 400;
+      transition: opacity 0.2s;
+    }
+
+    .sticky-bar .s-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .s-primary {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .s-secondary {
+      background: var(--grey-200);
+      color: var(--black);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      header {
+        padding: 0 20px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .breadcrumb {
+        padding: 14px 20px;
+      }
+
+      .product-page {
+        grid-template-columns: 1fr;
+      }
+
+      .image-side {
+        position: relative;
+        top: auto;
+        height: 80vw;
+        max-height: 520px;
+      }
+
+      .info-side {
+        padding: 36px 20px 120px;
+      }
+
+      .product-name {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="site-header">
-  <h1 class="logo">JEANIX</h1>
-  <a href="cart.html" class="cart-btn">
-    🛒 Cart (<span id="cart-count">0</span>)
-  </a>
-</header>
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">JEANIX</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#products">Collection</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <a href="cart.html" class="cart-link">
+      Cart <span class="cart-count" id="cart-count">0</span>
+    </a>
+  </header>
 
-
-<main id="product-detail" class="product-page">
-  
-</main>
-
-
-<div id="sticky-bar" class="sticky-bar hidden">
-    <span class="sticky-price" id="sticky-price">₹0</span>
-  
-    <button id="sticky-add-btn" disabled>
-      Add to Cart
-    </button>
-  
-    <button id="sticky-buy-btn" disabled>
-      Buy Now
-    </button>
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="sep">—</span>
+    <a href="index.html#products">Collection</a>
+    <span class="sep">—</span>
+    <span class="current" id="breadcrumb-name">Product</span>
   </div>
-  
 
+  <!-- PRODUCT PAGE -->
+  <div class="product-page" id="product-detail">
 
-<script src="script.js"></script>
-<script src="product.js"></script>
+    <!-- LEFT: IMAGE -->
+    <div class="image-side">
+      <div class="image-skeleton" id="img-skeleton"></div>
+      <img id="product-img" src="" alt="" />
+    </div>
+
+    <!-- RIGHT: INFO -->
+    <div class="info-side">
+
+      <p class="product-label">JEANIX · Premium Denim</p>
+      <h1 class="product-name" id="product-name">—</h1>
+      <p class="product-price" id="product-price">—</p>
+      <p class="product-delivery">Free Delivery · Cash on Delivery · Pan India</p>
+
+      <div class="divider"></div>
+
+      <!-- SIZE -->
+      <div class="size-section">
+        <div class="size-header">
+          <span class="size-label">Select Size</span>
+          <button class="size-guide" id="openSizeChart">Size Guide</button>
+        </div>
+        <div class="sizes">
+          <button class="size-btn" data-size="28">28</button>
+          <button class="size-btn" data-size="30">30</button>
+          <button class="size-btn" data-size="32">32</button>
+          <button class="size-btn" data-size="34">34</button>
+          <button class="size-btn" data-size="36">36</button>
+        </div>
+        <p class="size-hint" id="size-hint">Choose a size to continue</p>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="btn-group">
+        <button class="btn-primary" id="addToCartBtn" disabled>Add to Cart</button>
+        <button class="btn-secondary" id="buyNowBtn" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+          Order on WhatsApp
+        </button>
+      </div>
+
+      <!-- ACCORDION DETAILS -->
+      <div class="details-section">
+        <div class="accordion-item open">
+          <button class="accordion-header">
+            <span>Product Details</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body" style="max-height:200px">
+            <p>Slim Fit · Premium Denim · Comfortable Wear. Crafted from high-quality denim fabric designed for everyday
+              use. The slim fit silhouette provides a modern, tailored look without restricting movement.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>Fabric & Care</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p>98% Cotton, 2% Elastane. Machine wash cold. Do not bleach. Tumble dry low. Iron on low heat. Premium
+              denim construction ensures lasting colour and shape retention after multiple washes.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>Shipping & Returns</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <p>Free delivery across India. Cash on Delivery available. Dispatched within 1–2 business days. For support
+              or exchanges, contact us on WhatsApp at +91 97177 06407.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIZE CHART MODAL -->
+  <div class="modal-overlay" id="sizeModal">
+    <div class="modal">
+      <button class="modal-close" id="closeSizeChart">×</button>
+      <h2 class="modal-title">Size Guide</h2>
+      <p class="modal-sub">All measurements in inches</p>
+      <table class="size-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Waist</th>
+            <th>Hip</th>
+            <th>Inseam</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>28</td>
+            <td>28–29"</td>
+            <td>36–37"</td>
+            <td>30"</td>
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>30–31"</td>
+            <td>38–39"</td>
+            <td>30"</td>
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>32–33"</td>
+            <td>40–41"</td>
+            <td>31"</td>
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>34–35"</td>
+            <td>42–43"</td>
+            <td>31"</td>
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>36–37"</td>
+            <td>44–45"</td>
+            <td>32"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- MOBILE STICKY BAR -->
+  <div class="sticky-bar">
+    <span class="sticky-price" id="sticky-price"></span>
+    <button class="s-btn s-primary" id="sticky-add" disabled>Add to Cart</button>
+    <button class="s-btn s-secondary" id="sticky-buy" disabled>WhatsApp</button>
+  </div>
+
+  <script defer>
+    const API_URL = "https://jeanix-backends.onrender.com/api/products";
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    let selectedSize = null;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // ── CART ──
+    function updateCartCount() {
+      const count = cart.reduce((s, i) => s + Number(i.qty || 0), 0);
+      const el = document.getElementById("cart-count");
+      if (el) el.innerText = count;
+    }
+
+    function addToCart(id, name, price, image, size) {
+      const existing = cart.find(i => i.id === id && i.size === size);
+      if (existing) existing.qty += 1;
+      else cart.push({ id, name, price, image, size, qty: 1 });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    // ── TOAST ──
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2600);
+    }
+
+    // ── LOAD PRODUCT ──
+    async function loadProduct() {
+      if (!productId) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const res = await fetch(API_URL);
+        const products = await res.json();
+        const product = products.find(p => p._id === productId);
+
+        if (!product) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        // Populate
+        document.title = `${product.name} – JEANIX`;
+        document.getElementById("breadcrumb-name").textContent = product.name;
+        document.getElementById("product-name").textContent = product.name;
+        document.getElementById("product-price").textContent = `₹${product.price}`;
+
+        const stickyPrice = document.getElementById("sticky-price");
+        if (stickyPrice) stickyPrice.textContent = `₹${product.price}`;
+
+        // Image
+        const img = document.getElementById("product-img");
+        const skeleton = document.getElementById("img-skeleton");
+        img.alt = product.name;
+        img.src = product.image;
+        img.onload = () => {
+          img.classList.add("loaded");
+          if (skeleton) skeleton.style.display = "none";
+        };
+
+        attachEvents(product);
+
+      } catch (err) {
+        console.error("Product load failed", err);
+      }
+    }
+
+    // ── EVENTS ──
+    function attachEvents(product) {
+      const addBtn = document.getElementById("addToCartBtn");
+      const buyBtn = document.getElementById("buyNowBtn");
+      const stickyAdd = document.getElementById("sticky-add");
+      const stickyBuy = document.getElementById("sticky-buy");
+      const hint = document.getElementById("size-hint");
+      const sizeButtons = document.querySelectorAll(".size-btn");
+
+      // Sizes
+      sizeButtons.forEach(btn => {
+        btn.onclick = () => {
+          sizeButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          selectedSize = btn.dataset.size;
+
+          hint.textContent = `Size ${selectedSize} selected`;
+          hint.classList.add("selected");
+
+          addBtn.disabled = false;
+          buyBtn.disabled = false;
+          if (stickyAdd) stickyAdd.disabled = false;
+          if (stickyBuy) stickyBuy.disabled = false;
+        };
+      });
+
+      // Add to cart
+      const handleAddToCart = () => {
+        if (!selectedSize) return;
+        addToCart(product._id, product.name, product.price, product.image, selectedSize);
+        showToast(`Size ${selectedSize} added to cart`);
+      };
+
+      addBtn.onclick = handleAddToCart;
+      if (stickyAdd) stickyAdd.onclick = handleAddToCart;
+
+      // WhatsApp
+      const handleWhatsApp = () => {
+        if (!selectedSize) return;
+        const msg = `JEANIX Order\nProduct: ${product.name}\nSize: ${selectedSize}\nPrice: ₹${product.price}`;
+        window.open("https://wa.me/919717706407?text=" + encodeURIComponent(msg), "_blank");
+      };
+
+      buyBtn.onclick = handleWhatsApp;
+      if (stickyBuy) stickyBuy.onclick = handleWhatsApp;
+
+      // Size chart modal
+      document.getElementById("openSizeChart").onclick = () => {
+        document.getElementById("sizeModal").classList.add("open");
+      };
+      document.getElementById("closeSizeChart").onclick = () => {
+        document.getElementById("sizeModal").classList.remove("open");
+      };
+      document.getElementById("sizeModal").onclick = (e) => {
+        if (e.target === e.currentTarget)
+          document.getElementById("sizeModal").classList.remove("open");
+      };
+
+      // Accordion
+      document.querySelectorAll(".accordion-header").forEach(btn => {
+        btn.onclick = () => {
+          const item = btn.closest(".accordion-item");
+          const body = item.querySelector(".accordion-body");
+          const isOpen = item.classList.contains("open");
+
+          // Close all
+          document.querySelectorAll(".accordion-item").forEach(i => {
+            i.classList.remove("open");
+            i.querySelector(".accordion-body").style.maxHeight = "0";
+          });
+
+          // Open clicked if it was closed
+          if (!isOpen) {
+            item.classList.add("open");
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        };
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartCount();
+      loadProduct();
+    });
+  </script>
 
 </body>
+
 </html>

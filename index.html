@@ -1,99 +1,1070 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JEANIX – Premium Jeans for Men in India | COD Available</title>
-  <meta name="google-site-verification" content="2nmyT7r9Fn6VLp2mYd0bgfzlP_n61fFV8pYIbVkYEDs" />
-  <meta name="description" content="JEANIX offers premium quality jeans for men in India. Slim fit, comfortable denim with Cash on Delivery and pan India delivery.">
-<meta name="keywords" content="jeans for men, black jeans, slim fit jeans, denim jeans India, premium jeans">
-<link rel="icon" href="favicon.svg">
-<link rel="icon" href="favicon.png">
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <title>JEANIX – Premium Jeans for Men in India</title>
+  <meta name="description"
+    content="JEANIX offers premium quality jeans for men in India. Slim fit, comfortable denim with Cash on Delivery and pan India delivery.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Neue+Haas+Grotesk+Display+Pro:wght@400;500&family=Barlow:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://jeanix-backends.onrender.com">
 
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    :root {
+      --black: #0a0a0a;
+      --white: #fafaf8;
+      --grey-100: #f5f5f3;
+      --grey-200: #e8e8e4;
+      --grey-400: #a8a8a0;
+      --grey-600: #5a5a54;
+      --accent: #c8a96e;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Barlow', sans-serif;
+    }
 
-  <link rel="stylesheet" href="style.css" />
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-200);
+      transition: box-shadow 0.3s;
+    }
+
+    header.scrolled {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 36px;
+    }
+
+    nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey-600);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 400;
+    }
+
+    nav a:hover {
+      color: var(--black);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cart-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cart-count {
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.65rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      margin-top: 64px;
+      height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 64px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::before {
+      content: 'JEANIX';
+      position: absolute;
+      top: -20px;
+      left: -10px;
+      font-family: var(--font-display);
+      font-size: 22vw;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.03);
+      line-height: 1;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.7;
+      max-width: 320px;
+      margin-bottom: 48px;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 400;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      width: fit-content;
+      transition: border-color 0.3s, gap 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+
+    .hero-cta:hover {
+      border-color: var(--accent);
+      gap: 22px;
+    }
+
+    .hero-cta svg {
+      transition: transform 0.3s;
+    }
+
+    .hero-cta:hover svg {
+      transform: translateX(4px);
+    }
+
+    .hero-right {
+      background: var(--grey-100);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transform: scale(1.05);
+      animation: zoomOut 1.2s 0.1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      background: var(--white);
+      padding: 16px 22px;
+      opacity: 0;
+      animation: fadeUp 0.7s 1s forwards;
+    }
+
+    .hero-badge-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      margin-bottom: 4px;
+    }
+
+    .hero-badge-value {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-strip {
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-inner {
+      display: inline-flex;
+      animation: marquee 18s linear infinite;
+    }
+
+    .marquee-inner span {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0 40px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .marquee-inner span.dot {
+      color: var(--accent);
+      padding: 0;
+      font-size: 1rem;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 72px 40px 40px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--grey-400);
+    }
+
+    .section-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey-600);
+      text-decoration: none;
+      border-bottom: 1px solid var(--grey-200);
+      padding-bottom: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .section-link:hover {
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    /* ── PRODUCT GRID ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px;
+      padding: 0 40px 80px;
+    }
+
+    .card {
+      background: var(--grey-100);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-image-wrap {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--grey-200);
+      position: relative;
+    }
+
+    .card-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .card:hover .card-image-wrap img {
+      transform: scale(1.06);
+    }
+
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+      padding: 40px 20px 20px;
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .quick-view {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 10px 22px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .quick-view:hover {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    .card-body {
+      padding: 18px 20px 24px;
+      background: var(--white);
+    }
+
+    .card-name {
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+
+    .card-price {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .card-delivery {
+      font-size: 0.72rem;
+      color: var(--grey-400);
+      letter-spacing: 0.04em;
+    }
+
+    /* skeleton */
+    .skeleton-card .card-image-wrap {
+      background: linear-gradient(90deg, #ebebeb 25%, #d8d8d8 50%, #ebebeb 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+
+    .skeleton-card .card-body {
+      background: var(--grey-100);
+    }
+
+    .skeleton-card .skel-line {
+      height: 12px;
+      background: linear-gradient(90deg, #e0e0e0 25%, #cccccc 50%, #e0e0e0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 10px;
+      border-radius: 2px;
+    }
+
+    .skeleton-card .skel-line.short {
+      width: 50%;
+    }
+
+    /* ── FEATURES STRIP ── */
+    .features {
+      border-top: 1px solid var(--grey-200);
+      border-bottom: 1px solid var(--grey-200);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0 40px 80px;
+    }
+
+    .feature {
+      padding: 40px 32px;
+      border-right: 1px solid var(--grey-200);
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .feature:last-child {
+      border-right: none;
+    }
+
+    .feature-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 0.8rem;
+      color: var(--grey-600);
+      line-height: 1.6;
+    }
+
+    /* ── EDITORIAL BANNER ── */
+    .editorial {
+      margin: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+      overflow: hidden;
+    }
+
+    .editorial-image {
+      background: var(--grey-200);
+      overflow: hidden;
+    }
+
+    .editorial-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .editorial:hover .editorial-image img {
+      transform: scale(1.04);
+    }
+
+    .editorial-text {
+      background: var(--black);
+      color: var(--white);
+      padding: 64px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .editorial-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .editorial-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .editorial-title em {
+      font-style: italic;
+    }
+
+    .editorial-body {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 40px;
+      max-width: 340px;
+    }
+
+    .editorial-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 6px;
+      width: fit-content;
+      transition: border-color 0.3s;
+    }
+
+    .editorial-link:hover {
+      border-color: var(--accent);
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--grey-100);
+      padding: 72px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .contact-title em {
+      font-style: italic;
+      color: var(--grey-400);
+    }
+
+    .contact-sub {
+      font-size: 0.82rem;
+      color: var(--grey-600);
+      line-height: 1.7;
+      max-width: 380px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+
+    .contact-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      margin-bottom: 4px;
+      font-weight: 400;
+    }
+
+    .contact-value {
+      font-size: 0.85rem;
+      color: var(--black);
+    }
+
+    .contact-value a {
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--grey-200);
+      transition: border-color 0.2s;
+    }
+
+    .contact-value a:hover {
+      border-color: var(--black);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: rgba(255, 255, 255, 0.4);
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    footer .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--white);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomOut {
+      from {
+        transform: scale(1.05);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      header {
+        padding: 0 20px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .hero-left {
+        padding: 48px 24px;
+        min-height: 60vh;
+      }
+
+      .hero-right {
+        height: 50vw;
+      }
+
+      .section-header {
+        padding: 48px 20px 28px;
+      }
+
+      .product-grid {
+        padding: 0 20px 60px;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+        margin: 0 20px 60px;
+      }
+
+      .feature {
+        border-right: none;
+        border-bottom: 1px solid var(--grey-200);
+      }
+
+      .feature:last-child {
+        border-bottom: none;
+      }
+
+      .editorial {
+        grid-template-columns: 1fr;
+        margin: 0 20px 60px;
+      }
+
+      .editorial-image {
+        height: 280px;
+      }
+
+      .editorial-text {
+        padding: 40px 28px;
+      }
+
+      .contact {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 48px 20px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 28px 20px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
+  <!-- HEADER -->
+  <header id="site-header">
+    <a href="index.html" class="logo">JEANIX</a>
 
-<header class="site-header">
-  <div class="header-left">
-    <h1 class="logo">JEANIX</h1>
-  </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#products">Collection</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-  <nav class="header-nav">
-    <a href="#">Home</a>
-    <a href="#">Jeans</a>
-    <a href="#">New Arrivals</a>
-    <a href="#contact">Contact</a>
+    <div class="header-right">
+      <a href="cart.html" class="cart-link">
+        Cart
+        <span class="cart-count" id="cart-count">0</span>
+      </a>
+    </div>
+  </header>
 
-  </nav>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">New Collection · 2025</p>
+      <h1 class="hero-title">Denim<br>that <em>defines</em><br>you.</h1>
+      <p class="hero-subtitle">Premium slim-fit jeans crafted for everyday life. Comfort you can feel. Style you can own.</p>
+      <a href="#products" class="hero-cta">
+        Shop Collection
+        <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
+          <path d="M1 5h16M13 1l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
 
-  <div class="header-right">
-    <a href="cart.html" class="cart-btn">
-      🛒 Cart (<span id="cart-count">0</span>)
-    </a>
-  </div>
-</header>
-
-<div class="header-accent"></div>
-<section class="brand-ad">
-  <div class="brand-ad-content">
-    <h2>DENIM THAT DEFINES YOU</h2>
-    <p>
-      Crafted for comfort. Built for confidence.  
-      Discover premium jeans designed for everyday style.
-    </p>
-    <a href="#products" class="brand-ad-btn">Shop Now</a>
-  </div>
-  <section class="seo-text">
-    <h2>Premium Jeans in India</h2>
-    <p>
-      JEANIX brings you premium quality jeans for men, designed for comfort,
-      durability, and everyday style. Our denim collection includes slim fit,
-      regular fit, and classic black jeans suitable for all occasions.
-    </p>
-    <p>
-      We offer Cash on Delivery across India with fast shipping and easy support.
-      Shop online at JEANIX for stylish and affordable denim wear.
-    </p>
+    <div class="hero-right">
+      <!-- Placeholder gradient when no image -->
+      <div
+        style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 40%,#3a3530 100%);display:flex;align-items:center;justify-content:center;">
+        <span
+          style="font-family:'Cormorant Garamond',serif;font-size:8vw;color:rgba(255,255,255,0.08);font-weight:600;letter-spacing:0.1em;">DENIM</span>
+      </div>
+      <div class="hero-badge">
+        <p class="hero-badge-label">Delivery</p>
+        <p class="hero-badge-value">Cash on Delivery · Pan India</p>
+      </div>
+    </div>
   </section>
-  
-</section>
 
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span>Premium Denim</span><span class="dot">·</span>
+      <span>Slim Fit</span><span class="dot">·</span>
+      <span>Cash on Delivery</span><span class="dot">·</span>
+      <span>Pan India Shipping</span><span class="dot">·</span>
+      <span>New Arrivals</span><span class="dot">·</span>
+      <span>Premium Denim</span><span class="dot">·</span>
+      <span>Slim Fit</span><span class="dot">·</span>
+      <span>Cash on Delivery</span><span class="dot">·</span>
+      <span>Pan India Shipping</span><span class="dot">·</span>
+      <span>New Arrivals</span><span class="dot">·</span>
+      <span>Premium Denim</span><span class="dot">·</span>
+      <span>Slim Fit</span><span class="dot">·</span>
+      <span>Cash on Delivery</span><span class="dot">·</span>
+      <span>Pan India Shipping</span><span class="dot">·</span>
+      <span>New Arrivals</span><span class="dot">·</span>
+    </div>
+  </div>
 
+  <!-- PRODUCTS -->
+  <div class="section-header" id="products">
+    <h2 class="section-title">The <em>Collection</em></h2>
+    <a href="#" class="section-link">View All</a>
+  </div>
 
-<main class="product-grid" id="products"></main>
+  <div class="product-grid" id="product-container">
+    <!-- Skeleton cards -->
+    <div class="card skeleton-card">
+      <div class="card-image-wrap"></div>
+      <div class="card-body">
+        <div class="skel-line"></div>
+        <div class="skel-line short"></div>
+      </div>
+    </div>
+    <div class="card skeleton-card">
+      <div class="card-image-wrap"></div>
+      <div class="card-body">
+        <div class="skel-line"></div>
+        <div class="skel-line short"></div>
+      </div>
+    </div>
+    <div class="card skeleton-card">
+      <div class="card-image-wrap"></div>
+      <div class="card-body">
+        <div class="skel-line"></div>
+        <div class="skel-line short"></div>
+      </div>
+    </div>
+  </div>
 
+  <!-- FEATURES -->
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">🚚</div>
+      <div>
+        <p class="feature-title">Free Delivery</p>
+        <p class="feature-desc">Free shipping on all orders across India. No minimum order value.</p>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💵</div>
+      <div>
+        <p class="feature-title">Cash on Delivery</p>
+        <p class="feature-desc">Pay when your order arrives. Zero risk, complete convenience.</p>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✦</div>
+      <div>
+        <p class="feature-title">Premium Quality</p>
+        <p class="feature-desc">Crafted from premium denim fabric. Built to last, designed to impress.</p>
+      </div>
+    </div>
+  </div>
 
-<script src="script.js"></script>
+  <!-- EDITORIAL BANNER -->
+  <div class="editorial">
+    <div class="editorial-image">
+      <div
+        style="width:100%;height:100%;min-height:400px;background:linear-gradient(160deg,#1c1c1c,#2e2a24);display:flex;align-items:center;justify-content:center;">
+        <span
+          style="font-family:'Cormorant Garamond',serif;font-size:5vw;color:rgba(255,255,255,0.06);font-weight:600;">JEANIX</span>
+      </div>
+    </div>
+    <div class="editorial-text">
+      <p class="editorial-label">The Philosophy</p>
+      <h3 class="editorial-title">Style is a<br><em>choice</em>. Make it<br>count.</h3>
+      <p class="editorial-body">Every pair of JEANIX jeans is designed for the man and women who moves with purpose. Slim fits
+        that don't restrict. Fabric that breathes. Denim that works as hard as you do.</p>
+      <a href="#products" class="editorial-link">Explore the Range</a>
+    </div>
+  </div>
 
-<section id="contact" class="contact-section">
-  <h2>Contact JEANIX</h2>
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div>
+      <h2 class="contact-title">Get in <em>Touch</em></h2>
+      <p class="contact-sub">For orders, bulk inquiries, collaborations, or any support — we're always here for you.</p>
+    </div>
+    <div class="contact-info">
+      <div class="contact-item">
+        <div>
+          <p class="contact-label">Location</p>
+          <p class="contact-value">New Delhi, India</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div>
+          <p class="contact-label">WhatsApp / Phone</p>
+          <p class="contact-value"><a href="https://wa.me/919717706407">+91 97177 06407</a></p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div>
+          <p class="contact-label">Email</p>
+          <p class="contact-value">
+            <a href="mailto:sales@jeanix.in">sales@jeanix.in</a> &nbsp;·&nbsp;
+            <a href="mailto:rahil@jeanix.in">rahil@jeanix.in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <p>📍 New Delhi, India</p>
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">JEANIX</span>
+    <span>© 2025 Jeanix. All rights reserved.</span>
+    <span>New Delhi, India</span>
+  </footer>
 
-  <p>
-    📞 Phone / WhatsApp:
-    <a href="https://wa.me/919717706407" target="_blank">
-      +91 97177 06407
-    </a>
-  </p>
+  <script defer>
+    const API_URL = "https://jeanix-backends.onrender.com/api/products";
 
-  <p>
-    📧 Email:
-    <a href="mailto:jeanix.store@gmail.com">
-      sales@jeanix.in, rahil@jeanix.in
-    </a>
-  </p>
+    // Cart
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  <p class="contact-note">
-    For bulk orders, collaborations, or support — feel free to reach out.
-  </p>
-</section>
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + Number(item.qty || 0), 0);
+      const el = document.getElementById("cart-count");
+      if (el) el.innerText = count;
+    }
 
+    function addToCart(id, name, price, image, size = "N/A") {
+      const existing = cart.find(i => i.id === id && i.size === size);
+      if (existing) existing.qty += 1;
+      else cart.push({ id, name, price, image, size, qty: 1 });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    // Header scroll
+    window.addEventListener("scroll", () => {
+      document.getElementById("site-header").classList.toggle("scrolled", window.scrollY > 20);
+    });
+
+    // Intersection Observer for card animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add("visible"), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    async function loadProducts() {
+      const container = document.getElementById("product-container");
+      try {
+        const res = await fetch(API_URL);
+        const products = await res.json();
+
+        container.innerHTML = "";
+
+        products.forEach(p => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+          <div class="card-image-wrap">
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+            <div class="card-overlay">
+              <a href="product.html?id=${p._id}" class="quick-view">Select Size</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-name">${p.name}</p>
+            <p class="card-price">₹${p.price}</p>
+            <p class="card-delivery">Free Delivery · COD Available</p>
+          </div>
+        `;
+          card.querySelector(".card-image-wrap").addEventListener("click", () => {
+            window.location.href = `product.html?id=${p._id}`;
+          });
+          container.appendChild(card);
+          observer.observe(card);
+        });
+
+      } catch (err) {
+        container.innerHTML = `<p style="padding:40px;color:#999;font-size:.85rem;letter-spacing:.06em;">Unable to load products. Please try again.</p>`;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadProducts();
+      updateCartCount();
+    });
+  </script>
 
 </body>
+
 </html>
