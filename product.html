@@ -160,15 +160,23 @@
       height: calc(100vh - 64px);
       overflow: hidden;
       background: var(--grey-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .image-side img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center top;
+      /* FIX: contain so the full image is always visible, never cropped */
+      object-fit: contain;
+      object-position: center center;
       opacity: 0;
       transition: opacity 0.6s ease;
+      transform-origin: 0 0;
+      will-change: transform;
+      pointer-events: none;
+      user-select: none;
     }
 
     .image-side img.loaded {
@@ -662,8 +670,10 @@
       .image-side {
         position: relative;
         top: auto;
-        height: 80vw;
-        max-height: 520px;
+        height: 100vw;
+        /* FIX: taller on mobile so image isn't cut */
+        max-height: 620px;
+        /* FIX: increased from 520px */
       }
 
       .info-side {
@@ -673,6 +683,43 @@
       .product-name {
         font-size: 2rem;
       }
+
+      .image-side {
+        cursor: default !important;
+      }
+
+      .zoom-hint {
+        display: none;
+      }
+    }
+
+    /* ── ZOOM ── */
+    .image-side {
+      cursor: zoom-in;
+    }
+
+    .image-side.zoomed {
+      cursor: crosshair;
+    }
+
+    .zoom-hint {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey-600);
+      background: rgba(250, 250, 248, 0.88);
+      padding: 7px 12px;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+
+    .image-side.zoomed .zoom-hint {
+      opacity: 0;
     }
   </style>
 </head>
@@ -705,9 +752,10 @@
   <div class="product-page" id="product-detail">
 
     <!-- LEFT: IMAGE -->
-    <div class="image-side">
+    <div class="image-side" id="image-side">
       <div class="image-skeleton" id="img-skeleton"></div>
       <img id="product-img" src="" alt="" />
+      <div class="zoom-hint">Hover to zoom</div>
     </div>
 
     <!-- RIGHT: INFO -->
@@ -1005,7 +1053,42 @@
     document.addEventListener("DOMContentLoaded", () => {
       updateCartCount();
       loadProduct();
+      initZoom();
     });
+
+    // ZOOM ON HOVER
+    function initZoom() {
+      const side = document.getElementById("image-side");
+      const img = document.getElementById("product-img");
+      const SCALE = 2.2;
+      let isZoomed = false;
+
+      if (window.innerWidth <= 900) return;
+
+      side.addEventListener("click", () => {
+        isZoomed = !isZoomed;
+        side.classList.toggle("zoomed", isZoomed);
+        if (!isZoomed) img.style.transform = "";
+      });
+
+      side.addEventListener("mousemove", (e) => {
+        if (!isZoomed) return;
+        const rect = side.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        img.style.transformOrigin = x + "% " + y + "%";
+        img.style.transform = "scale(" + SCALE + ")";
+        img.style.transition = "transform 0.05s ease";
+      });
+
+      side.addEventListener("mouseleave", () => {
+        if (isZoomed) {
+          img.style.transform = "";
+          isZoomed = false;
+          side.classList.remove("zoomed");
+        }
+      });
+    }
   </script>
 
 </body>
